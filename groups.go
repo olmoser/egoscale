@@ -93,6 +93,19 @@ func (exo *Client) CreateIngressRule(rule SecurityGroupRule) (*AuthorizeSecurity
 	return &r, nil
 }
 
+func (exo *Client) DeleteIngressSecurityRule(id string) error {
+	params := url.Values{}
+	params.Set("id", id)
+
+	resp, err := exo.Request("revokeSecurityGroupIngress", params)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("## response: %+v\n", resp)
+	return nil
+}
+
 func (exo *Client) CreateSecurityGroupWithRules(name string, ingress []SecurityGroupRule, egress []SecurityGroupRule) (*CreateSecurityGroupResponse, error) {
 
 	params := url.Values{}
