@@ -198,6 +198,7 @@ type SecurityGroup struct {
 		Cidr      string   `json:"cidr,omitempty"`
 		IcmpCode  int      `json:"icmpcode,omitempty"`
 		IcmpType  int      `json:"icmptype,omitempty"`
+		SecurityGroupName string   `json:"securitygroupname,omitempty"`
 		Tags      []string `json:"tags,omitempty"`
 	} `json:"ingressrule,omitempty"`
 	EgressRules []struct {
@@ -208,6 +209,7 @@ type SecurityGroup struct {
 		Cidr      string   `json:"cidr,omitempty"`
 		IcmpCode  int      `json:"icmpcode,omitempty"`
 		IcmpType  int      `json:"icmptype,omitempty"`
+		SecurityGroupName string   `json:"securitygroupname,omitempty"`
 		Tags      []string `json:"tags,omitempty"`
 	} `json:"egressrule,omitempty"`
 	Tags []string `json:"tags,omitempty"`
