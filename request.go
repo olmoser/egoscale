@@ -97,6 +97,7 @@ func (exo *Client) Request(command string, params url.Values) (json.RawMessage, 
 		arg := k + "=" + csEncode(params[k][0])
 		unencoded = append(unencoded, arg)
 	}
+
 	sign_string := strings.ToLower(strings.Join(unencoded, "&"))
 
 	mac.Write([]byte(sign_string))
@@ -104,7 +105,17 @@ func (exo *Client) Request(command string, params url.Values) (json.RawMessage, 
 	query := params.Encode()
 	url := exo.endpoint + "?" + csQuotePlus(query) + "&signature=" + signature
 
-	resp, err := exo.client.Get(url)
+	var resp *http.Response
+	var err error
+
+	// accommodate for the 2K limit for GET requests when using large userdata
+	if command == "deployVirtualMachine" || command == "updateVirtualMachine" {
+		params.Add("signature", signature)
+		resp, err = exo.client.PostForm(exo.endpoint, params)
+	} else {
+		resp, err = exo.client.Get(url)
+	}
+
 	if err != nil {
 		return nil, err
 	}
